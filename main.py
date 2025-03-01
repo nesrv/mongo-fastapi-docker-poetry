@@ -6,14 +6,25 @@ from fastapi import FastAPI, HTTPException, Path
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
+import logging
+import sys
 
 
 class Settings(BaseSettings):
     mongo_uri: str
     root_path: str = ""
+    logging_level: str = "INFO"
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 settings = Settings()
+
+logging.basicConfig(
+    stream=sys.stdout,
+    level=settings.logging_level,
+    format="[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s",  # noqa: E501
+    datefmt="%d/%b/%Y %H:%M:%S",
+)
+logger = logging.getLogger("my-todos")
 
 db_client = AsyncIOMotorClient(settings.mongo_uri)
 db = db_client.todoDb
