@@ -1,6 +1,6 @@
 services:
   db:
-    image: mongo:7.0.1
+    image: mongo
     container_name: myAPIdb
     restart: always
     ports:

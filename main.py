@@ -25,8 +25,30 @@ class TodoId(BaseModel):
     id: str
 
 
+class TodoRecord(TodoId, Todo):
+    created_date: datetime
+    updated_date: datetime
 
 app = FastAPI()
+
+
+@app.get("/todos", response_model=list[TodoRecord])
+async def get_todos() -> list[TodoRecord]:
+    """
+    Get Todos
+    """
+    todos: list[TodoRecord] = []
+    async for doc in db.todos.find():
+        todos.append(
+            TodoRecord(
+                id=str(doc["_id"]),
+                title=doc["title"],
+                completed=doc["completed"],
+                created_date=doc["created_date"],
+                updated_date=doc["updated_date"],
+            )
+        )
+
 
 @app.post("/todos", response_model=TodoId)
 async def create_todo(payload: Todo) -> TodoId:
