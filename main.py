@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import logging
 import sys
-
+from fastapi.middleware.cors import CORSMiddleware
 
 class Settings(BaseSettings):
     mongo_uri: str
@@ -43,6 +43,16 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/",
     root_path=settings.root_path,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_origins=[
+        "http://localhost:3000",
+    ],
 )
 
 MONGO_ID_REGEX = r"^[a-f\d]{24}$"
