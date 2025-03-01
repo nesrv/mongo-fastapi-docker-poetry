@@ -1,14 +1,18 @@
 from datetime import datetime
-
 import uvicorn
 from bson import ObjectId
-from fastapi import FastAPI, HTTPException, Path
+from fastapi import FastAPI, HTTPException, Path, Request, Response
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import logging
 import sys
 from fastapi.middleware.cors import CORSMiddleware
+import time
+from typing import Any, Callable, TypeVar
+
+F = TypeVar("F", bound=Callable[..., Any])
+
 
 class Settings(BaseSettings):
     mongo_uri: str
@@ -74,6 +78,27 @@ class TodoRecord(TodoId, Todo):
 
 class NotFoundException(BaseModel):
     detail: str = "Not Found"
+
+
+@app.middleware("http")
+async def process_time_log_middleware(request: Request, call_next: F) -> Response:
+    """
+    Add API process time in response headers and log calls
+    """
+    start_time = time.time()
+    response: Response = await call_next(request)
+    process_time = str(round(time.time() - start_time, 3))
+    response.headers["X-Process-Time"] = process_time
+
+    logger.info(
+        "Method=%s Path=%s StatusCode=%s ProcessTime=%s",
+        request.method,
+        request.url.path,
+        response.status_code,
+        process_time,
+    )
+
+    return response
 
 
 @app.post("/todos", response_model=TodoId)
