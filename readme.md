@@ -16,7 +16,6 @@ poetry init
 poetry add fastapi 'uvicorn[standard]'
 poetry add -G dev ruff black mypy
 poetry add python-dotenv pydantic-settings motor
-poetry add -G dev pytest coverage mongomock-motor pytest_httpx pytest-asyncio
 ```
 
 
@@ -51,7 +50,18 @@ db.todos.createIndex( { "_id": 1, "user": 1 })
 
 ```shell
 curl -v http://localhost:8000/v1/todos
+curl -v http://localhost:8000/v1/todos -H 'Authorization: Bearer gho_...'
 
+```
+
+
+## Tests
+
+
+```bash
+poetry add -G dev pytest coverage mongomock-motor pytest_httpx pytest-asyncio
+export TESTING=true && poetry run coverage run --source ./app -m pytest --disable-warnings
+poetry run coverage html
 ```
 
 
@@ -59,8 +69,6 @@ curl -v http://localhost:8000/v1/todos
 https://github.com/login/oauth/authorize?client_id=Ov23lizZ77UiHHRUDa4i&redirect_uri=http://localhost:8000/v1/auth/callback
 ```
 
-
-access_token": "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"
 
 etc
 
