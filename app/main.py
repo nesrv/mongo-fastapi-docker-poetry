@@ -42,6 +42,7 @@ app.add_middleware(
 
 F = TypeVar("F", bound=Callable[..., Any])
 
+
 @app.middleware("http")
 async def process_time_log_middleware(request: Request, call_next: F) -> Response:
     """
@@ -62,6 +63,7 @@ async def process_time_log_middleware(request: Request, call_next: F) -> Respons
 
     return response
 
+
 description = f"""
 Authorize to get an Access Token from GitHub at <https://github.com/login/oauth/authorize?client_id={settings.github_oauth_client_id}&redirect_uri=http://localhost:8000/v1/auth/callback>
 """
@@ -72,9 +74,6 @@ app.include_router(
     prefix="/v1/auth",
     tags=["auth"],
 )
-
-
-
 
 
 app.include_router(
@@ -91,23 +90,3 @@ if __name__ == "__main__":
         log_level="debug",
         reload=True,
     )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
