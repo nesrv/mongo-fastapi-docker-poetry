@@ -32,7 +32,8 @@ sudo docker compose up -d
 
 ```
 
-## Mongo
+
+# Mongo
 
 ```bash
 mongosh mongodb://root:mySecureDbPassword1@localhost:27017/
@@ -59,7 +60,6 @@ https://github.com/login/oauth/authorize?client_id=Ov23lizZ77UiHHRUDa4i&redirect
 ```
 
 
-access_token": "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"
 
 etc
 
