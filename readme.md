@@ -66,6 +66,12 @@ sudo docker run -p 8000:80 fastapi-todos
 + sudo docker run -p 8000:80 --env-file .env fastapi-todos
 
 
+sudo docker system prune
+sudo docker system prune -a --volumes
+
+
+sudo docker system prune -a
+sudo systemctl restart docker
 ```
 
 # Mongo

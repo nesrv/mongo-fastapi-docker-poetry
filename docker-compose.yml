@@ -14,7 +14,7 @@ services:
 
   api:
     image: fastapi-todos
-    platform: linux/amd64 
+    platform: linux/amd64
     container_name: fastapi-todos
     restart: always
     ports:
@@ -23,6 +23,24 @@ services:
       - .env
     depends_on:
       - db
+  # server:
+  #   image: nginx:1.25-alpine
+  #   container_name: nginx
+  #   restart: always
+  #   ports:
+  #     - 443:443
+  #   volumes:
+  #     - type: bind
+  #       read_only: true
+  #       source: ./nginx/nginx.conf  # Update this path to your actual nginx.conf file
+  #       target: /etc/nginx/nginx.conf
+  #     - type: bind
+  #       read_only: true
+  #       source: /etc/ssl/certs
+  #       target: /etc/ssl/certs
+  #   depends_on:
+  #     - api
 
 volumes:
   my_api_db_data:
+
