@@ -6,7 +6,7 @@ authors = ["ne_srv <ne_srv@mail.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 fastapi = "^0.115.10"
 uvicorn = {extras = ["standard"], version = "^0.34.0"}
 python-dotenv = "^1.0.1"
